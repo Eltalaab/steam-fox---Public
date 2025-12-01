@@ -10,6 +10,7 @@
         .text-accent { color: #00e676; }
         .bg-accent { background-color: #00e676; }
         .hover\:bg-accent-dark:hover { background-color: #00b359; }
+        /* تنسيق القائمة المنسدلة */
         select {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
             background-position: left 0.5rem center;
@@ -19,28 +20,25 @@
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased flex flex-col min-h-screen">
 
     <nav class="p-4 border-b border-gray-800">
-        <div class="container mx-auto flex justify-between items-center px-4 md:px-6">
+        <div class="container mx-auto flex justify-center md:justify-start items-center px-4">
             <div class="flex items-center space-x-2 space-x-reverse">
                 <span class="text-3xl">🦊</span>
                 <span class="text-2xl font-bold text-white">Steam Fox</span>
             </div>
-            <div class="space-x-4 space-x-reverse hidden sm:flex">
-                <a href="#features" class="text-gray-400 hover:text-accent transition duration-200">الميزات</a>
-                <a href="#download" class="text-gray-400 hover:text-accent transition duration-200">تحميل</a>
-            </div>
         </div>
     </nav>
 
-    <header id="download" class="py-20 md:py-24 text-center">
+    <header id="download" class="flex-grow flex items-center justify-center py-20 text-center">
         <div class="container mx-auto px-4 md:px-6">
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-8 leading-snug">
+            
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-10 leading-snug">
                 أداة <span class="text-accent">Steam Fox</span>
             </h1>
 
-            <div class="bg-[#1a1a1a] p-8 rounded-2xl border border-gray-700 max-w-xl mx-auto shadow-2xl">
+            <div class="bg-[#1a1a1a] p-8 rounded-2xl border border-gray-700 max-w-lg mx-auto shadow-2xl">
                 
                 <h3 class="text-xl font-bold mb-4 text-gray-300">اختر الإصدار:</h3>
 
@@ -63,21 +61,30 @@
         </div>
     </header>
 
-    <footer class="bg-gray-900 py-8 border-t border-gray-800 text-center text-gray-500 text-sm">
-        <p>Steam Fox © 2024</p>
+    <footer class="bg-gray-900 py-8 border-t border-gray-800 text-center">
+        <div class="container mx-auto px-4 flex flex-col items-center justify-center space-y-4">
+            <p class="text-gray-500 text-sm">Steam Fox © 2024</p>
+            
+            <a href="https://github.com/Eltalaab/steam-fox---Public" target="_blank" class="inline-flex items-center text-gray-400 hover:text-white transition duration-200">
+                <span class="ml-2">عرض المشروع على GitHub</span>
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
+                </svg>
+            </a>
+        </div>
     </footer>
 
     <script>
         const data = {
             'v2': {
-                // رابط تحميل الإصدار الجديد
+                // رابط تحميل الإصدار الجديد (Go)
                 app: 'https://github.com/Eltalaab/steam-fox---Public/releases/download/v2.0/SteamFox.rar',
                 text: 'تحميل البرنامج (Go)',
                 note: 'الإصدار الأحدث: أداء أسرع وخفيف جداً على الجهاز'
             },
             
             'v1': {
-                // (ملاحظة: عدل هذا الرابط لاحقاً عند عمل ريليز للإصدار القديم)
+                // (ملاحظة: هذا الرابط حالياً يوجه لنفس الملف حتى ترفع الإصدار القديم)
                 app: 'https://github.com/Eltalaab/steam-fox---Public/releases/download/v2.0/SteamFox.rar', 
                 text: 'تحميل البرنامج (Python)',
                 note: 'الإصدار القديم: قد يحتاج إلى تثبيت مكتبات إضافية'
