@@ -45,8 +45,8 @@
 
                 <div class="relative mb-8">
                     <select id="versionSelect" onchange="updateLinks()" class="w-full appearance-none bg-gray-800 border border-gray-600 text-white py-3 px-4 pr-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent text-lg cursor-pointer">
-                        <option value="v2">الإصدار v2.0 (نسخة Go)</option>
                         <option value="v1">الإصدار v1.0 (نسخة Python)</option>
+                        <option value="v2">الإصدار v2.0 (نسخة Go)</option>
                     </select>
                 </div>
 
@@ -57,7 +57,7 @@
                     </a>
                 </div>
 
-                <p id="versionNote" class="mt-6 text-sm text-gray-500">مبني باستخدام لغة Go</p>
+                <p id="versionNote" class="mt-6 text-sm text-gray-500">مبني باستخدام لغة Python</p>
             </div>
         </div>
     </header>
@@ -77,20 +77,18 @@
 
     <script>
         const data = {
-            'v2': {
-                // ⚠️ هذا الرابط يبحث عن الملف الذي يحتوي اسمه على Go
-                // تأكد أنك رفعت الملف في الريليز باسم: SteamFox-Go.rar
-                app: 'https://github.com/Eltalaab/steam-fox---Public/releases/download/v2.0/SteamFox-Go.rar',
-                text: 'تحميل البرنامج (Go)',
-                note: 'مبني باستخدام لغة Go (الأسرع)'
-            },
-            
             'v1': {
-                // ⚠️ هذا الرابط يبحث عن الملف الذي يحتوي اسمه على Py
-                // تأكد أنك رفعت الملف في الريليز باسم: SteamFox-Py.rar
+                // رابط نسخة البايثون (يظهر أولاً)
                 app: 'https://github.com/Eltalaab/steam-fox---Public/releases/download/v2.0/SteamFox-Py.rar',
                 text: 'تحميل البرنامج (Python)',
-                note: 'نسخة بايثون (تأكد من وجود المكتبات)'
+                note: 'نسخة بايثون (تأكد من تثبيت المتطلبات)'
+            },
+            
+            'v2': {
+                // رابط نسخة جو (يظهر ثانياً)
+                app: 'https://github.com/Eltalaab/steam-fox---Public/releases/download/v2.0/SteamFox-Go.rar',
+                text: 'تحميل البرنامج (Go)',
+                note: 'مبني باستخدام لغة Go (سريع ولا يحتاج تثبيت)'
             }
         };
 
@@ -108,10 +106,8 @@
             document.getElementById('versionNote').innerText = info.note;
         }
 
+        // تشغيل الدالة عند تحميل الصفحة ليظهر الخيار الأول (بايثون) مباشرة
         window.onload = updateLinks;
     </script>
 </body>
 </html>
-
-
-
