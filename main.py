@@ -76,18 +76,6 @@ GAMES_DB = {
     ]
 }
 
-def transform_to_direct_link(old_link):
-    if not old_link: return ""
-    match = re.search(r'(?:pixeldrain\.sriflix\.my|pixeldrain\.com\/u)\/([a-zA-Z0-9]+)', old_link)
-    if match:
-        file_id = match.group(1)
-        return f"https://pixeldrain.com/api/file/{file_id}?download"
-    if "drive.google.com" in old_link and "export=download" not in old_link:
-        if "?" in old_link:
-            return old_link + "&export=download&confirm=t"
-        else:
-            return old_link + "?export=download&confirm=t"
-    return old_link
 
 def download_selected_game():
     category = combo_category.get()
@@ -114,17 +102,6 @@ def update_game_dropdown(choice):
     else:
         combo_games.configure(values=["Select Category First"])
 
-def fetch_id_from_name(game_name):
-    try:
-        url = f"https://store.steampowered.com/api/storesearch/?term={game_name}&l=english&cc=US"
-        response = requests.get(url, timeout=3)
-        data = response.json()
-        if data['total'] > 0:
-            return str(data['items'][0]['id'])
-    except:
-        pass
-    return None
-
 def get_game_details_full(app_id):
     try:
         url = f"https://store.steampowered.com/api/appdetails?appids={app_id}&cc=US&l=english"
@@ -139,31 +116,6 @@ def get_game_details_full(app_id):
         pass
     return None, []
 
-def fetch_manifest_from_hub(app_id):
-    url = f"https://raw.githubusercontent.com/SteamAutoCracks/ManifestHub/{app_id}/{app_id}.lua"
-    try:
-        response = requests.get(url, timeout=5)
-        if response.status_code == 200 and len(response.text) > 10:
-            return response.text
-    except:
-        pass
-    return None
-
-def search_game_thread(query):
-    app.after(0, clear_results)
-    if not query: return
-    try:
-        app.after(0, lambda: lbl_status_msg.configure(text="Searching...", text_color=COLOR_ACCENT))
-        url = f"https://store.steampowered.com/api/storesearch/?term={query}&l=english&cc=US"
-        response = requests.get(url, timeout=5)
-        data = response.json()
-        if data['total'] == 0:
-            app.after(0, lambda: lbl_status_msg.configure(text="No games found!", text_color="#ff5555"))
-            return
-        app.after(0, lambda: show_results(data['items']))
-        app.after(0, lambda: lbl_status_msg.configure(text=f"Found {data['total']} results", text_color=COLOR_TEXT_GRAY))
-    except:
-        app.after(0, lambda: lbl_status_msg.configure(text="Connection Error", text_color="#ff5555"))
 
 def clear_results():
     for widget in search_results_frame.winfo_children():
@@ -379,43 +331,7 @@ entry_file.pack(side="left", fill="x", expand=True)
 search_results_frame = ctk.CTkScrollableFrame(tab_home, height=100, fg_color="#222", corner_radius=10)
 
 ctk.CTkFrame(tab_home, height=2, fg_color="#333").pack(fill="x", padx=40, pady=20)
-
-bypass_frame = ctk.CTkFrame(tab_home, fg_color="#222", corner_radius=10)
-bypass_frame.pack(pady=5, padx=20, fill="x")
-
-lbl_bypass_title = ctk.CTkLabel(bypass_frame, text="Direct Bypass Downloader", font=("Segoe UI", 14, "bold"), text_color=COLOR_BYPASS)
-lbl_bypass_title.pack(pady=(10, 5))
-combo_frame = ctk.CTkFrame(bypass_frame, fg_color="transparent")
-combo_frame.pack(pady=10, padx=10)
-categories = list(GAMES_DB.keys())
-combo_category = ctk.CTkOptionMenu(combo_frame, values=categories, command=update_game_dropdown, width=150, fg_color="#333", button_color=COLOR_BYPASS, button_hover_color=COLOR_BYPASS_HOVER, text_color="white")
-combo_category.pack(side="left", padx=10)
-combo_category.set("Select Category")
-combo_games = ctk.CTkOptionMenu(combo_frame, values=["Select Category First"], width=200, fg_color="#333", button_color=COLOR_ACCENT, button_hover_color=COLOR_BTN_HOVER, text_color="white")
-combo_games.pack(side="left", padx=10)
-btn_dl_direct = ctk.CTkButton(combo_frame, text="Download ⬇️", command=download_selected_game, width=100, fg_color=COLOR_ACCENT, hover_color=COLOR_BTN_HOVER, text_color="black", font=("Segoe UI", 12, "bold"))
-btn_dl_direct.pack(side="left", padx=10)
-
-btns_frame = ctk.CTkFrame(tab_home, fg_color="transparent")
-btns_frame.pack(pady=20, padx=20, fill="x", side="bottom") 
-btns_frame.columnconfigure(0, weight=1)
-btns_frame.columnconfigure(1, weight=1)
-btn_add = ctk.CTkButton(btns_frame, text="Add Searched Game ➕", command=add_file_logic, height=40, corner_radius=10, fg_color="#333", border_color=COLOR_ACCENT, border_width=1, hover_color="#444", font=("Segoe UI", 13, "bold"), text_color="white")
-btn_add.grid(row=0, column=0, padx=5, sticky="ew")
-btn_restart = ctk.CTkButton(btns_frame, text="Restart Steam ⚡", command=btn_restart_click, height=40, corner_radius=10, fg_color="#2b2b2b", hover_color="#3a3a3a", border_width=1, border_color="#ff5555", font=("Segoe UI", 13), text_color="white")
-btn_restart.grid(row=0, column=1, padx=5, sticky="ew")
-
-lib_ctrl_frame = ctk.CTkFrame(tab_library, fg_color="transparent")
-lib_ctrl_frame.pack(fill="x", padx=10, pady=5)
-btn_refresh = ctk.CTkButton(lib_ctrl_frame, text="Refresh List 🔄", command=refresh_library_ui, width=120, fg_color="#333", hover_color="#444")
-btn_refresh.pack(side="left")
-library_scroll = ctk.CTkScrollableFrame(tab_library, fg_color="transparent")
-library_scroll.pack(fill="both", expand=True, padx=5, pady=5)
-app.after(1000, refresh_library_ui)
-
-status_card = ctk.CTkFrame(app, fg_color="transparent", height=40)
-status_card.pack(pady=5, padx=20, fill="x")
-lbl_status_msg = ctk.CTkLabel(status_card, text="Ready.", font=("Segoe UI", 12), text_color="gray", anchor="w")
 lbl_status_msg.pack(side="left", padx=10)
+
 
 app.mainloop()
