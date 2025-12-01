@@ -12,7 +12,6 @@
         .bg-accent { background-color: #00e676; }
         .hover\:bg-accent-dark:hover { background-color: #00b359; }
         
-        /* تنسيق سهم القائمة المنسدلة */
         select {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
             background-position: left 0.5rem center;
@@ -30,7 +29,7 @@
                 <span class="text-3xl">🦊</span>
                 <span class="text-2xl font-bold text-white">Steam Fox</span>
             </div>
-            </div>
+        </div>
     </nav>
 
     <header id="download" class="flex-grow flex items-center justify-center py-20 text-center">
@@ -46,19 +45,19 @@
 
                 <div class="relative mb-8">
                     <select id="versionSelect" onchange="updateLinks()" class="w-full appearance-none bg-gray-800 border border-gray-600 text-white py-3 px-4 pr-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent text-lg cursor-pointer">
-                        <option value="v2">الإصدار v2.0 (نسخة Go )</option>
+                        <option value="v2">الإصدار v2.0 (نسخة Go)</option>
                         <option value="v1">الإصدار v1.0 (نسخة Python)</option>
                     </select>
                 </div>
 
                 <div class="flex justify-center">
-                    <a id="btnApp" href="#" class="w-full inline-flex items-center justify-center bg-accent hover:bg-accent-dark text-gray-900 text-xl font-bold py-4 px-6 rounded-xl shadow-lg transition duration-300 transform hover:scale-105">
+                    <a id="btnApp" href="#" target="_blank" class="w-full inline-flex items-center justify-center bg-accent hover:bg-accent-dark text-gray-900 text-xl font-bold py-4 px-6 rounded-xl shadow-lg transition duration-300 transform hover:scale-105">
                         <svg class="w-8 h-8 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                         <span id="btnText">تحميل البرنامج</span>
                     </a>
                 </div>
 
-                <p id="versionNote" class="mt-6 text-sm text-gray-500">مبني باستخدام لغة Go لأداء فائق السرعة</p>
+                <p id="versionNote" class="mt-6 text-sm text-gray-500">مبني باستخدام لغة Go</p>
             </div>
         </div>
     </header>
@@ -79,13 +78,16 @@
     <script>
         const data = {
             'v2': {
-                app: 'https://github.com/Eltalaab/steam-fox---Public/releases/download/v2.0/SteamFox.rar',
+                // ⚠️ هام جداً: تأكد أن اسم الملف هنا مطابق تماماً لاسم الملف في GitHub Releases
+                // لقد وضعت "Steam-Foxgo.rar" بناءً على مسودتك السابقة. إذا كان اسمه "SteamFox.rar" فقط، عدله هنا.
+                app: 'https://github.com/Eltalaab/steam-fox---Public/releases/download/v2.0/Steam-Foxgo.rar',
                 text: 'تحميل البرنامج (Go)',
-                note: 'الإصدار الأحدث: أداء أسرع وخفيف جداً على الجهاز'
+                note: 'مبني باستخدام لغة Go'
             },
             
             'v1': {
-                app: 'https://github.com/Eltalaab/steam-fox---Public/releases/download/v2.0/SteamFox.rar', 
+                // ⚠️ هام جداً: تأكد من اسم ملف البايثون هنا
+                app: 'https://github.com/Eltalaab/steam-fox---Public/releases/download/v2.0/steam-foxpy.rar', 
                 text: 'تحميل البرنامج (Python)',
                 note: 'الإصدار القديم: قد يحتاج إلى تثبيت مكتبات إضافية'
             }
@@ -107,5 +109,3 @@
     </script>
 </body>
 </html>
-
-
