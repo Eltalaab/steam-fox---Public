@@ -53,16 +53,7 @@ const (
 	SteamExe  = SteamPath + `\steam.exe`
 )
 
-// --- بيانات ---
-var GamesDB = map[string][]struct{ Name, Link string }{
-	"Ubisoft": {
-		{"Assassin's Creed Mirage", "https://pixeldrain.com/api/file/mQr19FSK?download"},
-		{"Far Cry 6", "https://drive.google.com/uc?export=download&confirm=t&id=1AnLR9TxK7-nbpYMP-fseXdmvOH2jO9jK"},
-	},
-	"Rockstar": {{"GTA V Enhanced", "https://pixeldrain.com/api/file/mV7oHSLZ?download"}},
-	"EA Sports": {{"FC 23 (Fix)", "https://drive.google.com/uc?export=download&confirm=t&id=1cvp9tfw9pV2Nu21Hr5NghLclKOx4FK7i"}},
-	"Activision": {{"Call of Duty MW2", "https://pixeldrain.com/api/file/Fq7dGXwd?download"}},
-}
+
 
 // --- الثيم ---
 type exactTheme struct{}
@@ -225,43 +216,7 @@ func (r *outlinedButtonRenderer) Refresh() {
 func (r *outlinedButtonRenderer) Objects() []fyne.CanvasObject { return r.objects }
 func (r *outlinedButtonRenderer) Destroy() {}
 
-// --- API ---
-type SteamItem struct { ID int `json:"id"`; Name string `json:"name"` }
-type SteamSearchResponse struct { Items []SteamItem `json:"items"` }
 
-func main() {
-	myApp := app.New()
-	myApp.Settings().SetTheme(&exactTheme{})
-	
-	appIcon := fyne.NewStaticResource("icon.ico", iconData)
-	myApp.SetIcon(appIcon)
-
-	w := myApp.NewWindow("Steam Fox")
-	w.Resize(fyne.NewSize(950, 750))
-	w.SetIcon(appIcon)
-
-	// --- Header ---
-	title := canvas.NewText("Steam Fox", ColText)
-	title.TextStyle = fyne.TextStyle{Bold: true}
-	title.TextSize = 28
-
-	badgeBg := canvas.NewRectangle(ColNeonGreen)
-	badgeBg.CornerRadius = 6
-	badgeTxt := canvas.NewText(" v1.5 ", color.Black)
-	badgeTxt.TextStyle = fyne.TextStyle{Bold: true}
-	badgeTxt.TextSize = 12
-	badge := container.NewStack(badgeBg, container.NewCenter(badgeTxt))
-
-	webBtn := widget.NewButton("Open SteamDB", func() {
-		u, _ := url.Parse("https://steamdb.info")
-		myApp.OpenURL(u)
-	})
-	webBtn.Icon = theme.GridIcon()
-
-	header := container.NewHBox(title, container.NewPadded(badge), layout.NewSpacer(), webBtn)
-
-	// --- المحتوى (Content) ---
-	// سنقوم بإنشاء المحتويين (الرئيسي والمكتبة) ونبدل بينهما
 	
 	// 1. محتوى Home
 	homeContent := buildHomeContent()
@@ -359,9 +314,7 @@ func buildHomeContent() fyne.CanvasObject {
 			statusTxt.Color = ColGray
 			statusTxt.Refresh()
 			resultsBox.Objects = nil
-			resultsScroll.Hide()
-			url := fmt.Sprintf("https://store.steampowered.com/api/storesearch/?term=%s&l=english&cc=US", searchEntry.Text)
-			resp, err := http.Get(url)
+			resultsScroll.Hide(
 			if err == nil {
 				defer resp.Body.Close()
 				var res SteamSearchResponse
@@ -383,75 +336,6 @@ func buildHomeContent() fyne.CanvasObject {
 	}
 
 	searchRow := container.NewBorder(nil, nil, searchBtn, nil, searchEntry)
-
-	// Bypass Section
-	bypassTitle := canvas.NewText("Direct Bypass Downloader", ColOrange)
-	bypassTitle.TextStyle = fyne.TextStyle{Bold: true}
-	bypassTitle.Alignment = fyne.TextAlignCenter
-	bypassTitle.TextSize = 16
-
-	catSelect := widget.NewSelect(getKeys(GamesDB), nil)
-	catSelect.PlaceHolder = "Select Category"
-	gameSelect := widget.NewSelect([]string{}, nil)
-	gameSelect.PlaceHolder = "Select Category First"
-
-	catSelect.OnChanged = func(s string) {
-		var names []string
-		for _, g := range GamesDB[s] { names = append(names, g.Name) }
-		gameSelect.Options = names; gameSelect.Refresh()
-	}
-
-	dlBtn := widget.NewButtonWithIcon("Download", theme.DownloadIcon(), func() {
-		cat := catSelect.Selected
-		gm := gameSelect.Selected
-		if cat != "" && gm != "" {
-			for _, g := range GamesDB[cat] {
-				if g.Name == gm {
-					exec.Command("cmd", "/C", "start", g.Link).Start()
-					return
-				}
-			}
-		}
-	})
-	dlBtn.Importance = widget.HighImportance
-
-	bypassContent := container.NewVBox(bypassTitle, layout.NewSpacer(), container.NewGridWithColumns(3, catSelect, gameSelect, dlBtn))
-	bypassCard := createSmoothCard(bypassContent, ColDarkInput, 12)
-
-	// Buttons
-	btnAdd := NewOutlinedButton("Add Searched Game +", theme.ContentAddIcon(), ColNeonGreen, func() {
-		id := searchEntry.Text
-		if _, err := strconv.Atoi(id); err == nil {
-			os.MkdirAll(TargetDir, 0755)
-			ioutil.WriteFile(filepath.Join(TargetDir, id+".lua"), []byte(fmt.Sprintf("addappid(%s)", id)), 0644)
-			statusTxt.Text = "Success! Game Added: " + id; statusTxt.Color = ColNeonGreen
-		} else { statusTxt.Text = "Error"; statusTxt.Color = ColRed }
-		statusTxt.Refresh()
-	})
-
-	btnRestart := NewOutlinedButton("Restart Steam ⚡", theme.ViewRefreshIcon(), ColRed, func() {
-		exec.Command(SteamExe, "-shutdown").Start()
-		go func() {
-			time.Sleep(3 * time.Second)
-			exec.Command("taskkill", "/F", "/IM", "steam.exe").Run()
-			time.Sleep(1 * time.Second)
-			exec.Command(SteamExe).Start()
-		}()
-	})
-
-	homeBox := container.NewVBox(
-		layout.NewSpacer(),
-		createCenteredText("Enter Steam App ID or Search Game", ColGray),
-		container.NewPadded(searchRow),
-		container.NewPadded(resultsScroll),
-		layout.NewSpacer(),
-		bypassCard,
-		layout.NewSpacer(),
-		container.NewPadded(container.NewGridWithColumns(2, btnAdd, btnRestart)),
-		layout.NewSpacer(),
-	)
-
-	return createSmoothCard(homeBox, ColCard, 20)
 }
 
 func buildLibraryContent() (fyne.CanvasObject, func()) {
@@ -514,4 +398,5 @@ func getKeys(m map[string][]struct{ Name, Link string }) []string {
 	keys := make([]string, 0, len(m))
 	for k := range m { keys = append(keys, k) }
 	return keys
+
 }
