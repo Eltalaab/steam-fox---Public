@@ -40,30 +40,25 @@
                 أداة <span class="text-accent">Steam Fox</span>
             </h1>
 
-            <div class="bg-[#1a1a1a] p-8 rounded-2xl border border-gray-700 max-w-2xl mx-auto shadow-2xl">
+            <div class="bg-[#1a1a1a] p-8 rounded-2xl border border-gray-700 max-w-xl mx-auto shadow-2xl">
                 
                 <h3 class="text-xl font-bold mb-4 text-gray-300">اختر الإصدار:</h3>
 
                 <div class="relative mb-8">
                     <select id="versionSelect" onchange="updateLinks()" class="w-full appearance-none bg-gray-800 border border-gray-600 text-white py-3 px-4 pr-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent text-lg cursor-pointer">
-                        <option value="v2">الإصدار v2.0 (Go - الأحدث)</option>
-                        <option value="v1">الإصدار v1.0 (Python - القديم)</option>
+                        <option value="v2">الإصدار v2.0 (نسخة Go - الأسرع)</option>
+                        <option value="v1">الإصدار v1.0 (نسخة Python)</option>
                     </select>
                 </div>
 
-                <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    
-                    <a id="btnApp" href="downloads/v2/steam-fox.rar" download class="flex-1 inline-flex items-center justify-center bg-accent hover:bg-accent-dark text-gray-900 text-lg font-bold py-3 px-6 rounded-xl shadow-lg transition duration-300 transform hover:scale-105">
-                        <svg class="w-6 h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                        تحميل البرنامج
-                    </a>
-
-                    <a id="btnSource" href="downloads/v2/main.go" download class="flex-1 inline-flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-white text-lg font-bold py-3 px-6 rounded-xl shadow-lg transition duration-300 border border-gray-600">
-                        <span id="sourceIcon" class="ml-2 text-2xl">🐹</span> <span id="sourceText">سورس كود (Go)</span>
+                <div class="flex justify-center">
+                    <a id="btnApp" href="#" class="w-full inline-flex items-center justify-center bg-accent hover:bg-accent-dark text-gray-900 text-xl font-bold py-4 px-6 rounded-xl shadow-lg transition duration-300 transform hover:scale-105">
+                        <svg class="w-8 h-8 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        <span id="btnText">تحميل البرنامج</span>
                     </a>
                 </div>
 
-                <p id="versionNote" class="mt-4 text-sm text-gray-500">مبني باستخدام لغة Go لأداء فائق السرعة</p>
+                <p id="versionNote" class="mt-6 text-sm text-gray-500">مبني باستخدام لغة Go لأداء فائق السرعة</p>
             </div>
         </div>
     </header>
@@ -75,25 +70,17 @@
     <script>
         const data = {
             'v2': {
-                // رابط تحميل البرنامج من صفحة الريليز (تأكدنا منه من الصورة)
+                // رابط تحميل الإصدار الجديد
                 app: 'https://github.com/Eltalaab/steam-fox---Public/releases/download/v2.0/SteamFox.rar',
-                
-                // رابط مشاهدة كود Go مباشرة
-                source: 'https://github.com/Eltalaab/steam-fox---Public/blob/main/main.go',
-                
-                text: 'استعراض كود (Go)',
-                note: 'مبني باستخدام لغة Go لأداء فائق السرعة'
+                text: 'تحميل البرنامج (Go)',
+                note: 'الإصدار الأحدث: أداء أسرع وخفيف جداً على الجهاز'
             },
             
             'v1': {
-                // (مؤقت) سنستخدم نفس رابط التحميل حتى تقوم بعمل Release خاص للإصدار القديم
+                // (ملاحظة: عدل هذا الرابط لاحقاً عند عمل ريليز للإصدار القديم)
                 app: 'https://github.com/Eltalaab/steam-fox---Public/releases/download/v2.0/SteamFox.rar', 
-                
-                // رابط مشاهدة كود Python مباشرة
-                source: 'https://github.com/Eltalaab/steam-fox---Public/blob/main/main.py',
-                
-                text: 'استعراض كود (Python)',
-                note: 'الإصدار القديم مبني بلغة Python'
+                text: 'تحميل البرنامج (Python)',
+                note: 'الإصدار القديم: قد يحتاج إلى تثبيت مكتبات إضافية'
             }
         };
 
@@ -104,24 +91,15 @@
             const selectedVersion = selectElement.value;
             const info = data[selectedVersion];
             
-            // تحديث رابط تحميل البرنامج
+            // تحديث رابط التحميل
             document.getElementById('btnApp').href = info.app;
             
-            // تحديث رابط السورس كود
-            const btnSource = document.getElementById('btnSource');
-            btnSource.href = info.source;
-            btnSource.target = "_blank"; // يفتح في صفحة جديدة
-            
-            // تحديث النصوص
-            document.getElementById('sourceText').innerText = info.text;
-            document.getElementById('sourceIcon').innerText = info.icon;
+            // تحديث نص الزر والملاحظة
+            document.getElementById('btnText').innerText = info.text;
             document.getElementById('versionNote').innerText = info.note;
         }
 
-        // تشغيل التحديث فور فتح الصفحة
         window.onload = updateLinks;
     </script>
 </body>
 </html>
-
-
