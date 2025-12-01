@@ -1,0 +1,103 @@
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steam Fox | أداة إدارة تطبيقات ستيم</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap');
+        body {
+            font-family: 'Almarai', sans-serif;
+            background-color: #0f0f0f;
+            color: #ffffff;
+        }
+        .text-accent {
+            color: #00e676;
+        }
+        .bg-accent {
+            background-color: #00e676;
+        }
+        .hover\:bg-accent-dark:hover {
+            background-color: #00b359;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="p-4 border-b border-gray-800">
+        <div class="container mx-auto flex justify-between items-center px-4 md:px-6">
+            <div class="flex items-center space-x-2 space-x-reverse">
+                <span class="text-3xl">🦊</span>
+                <span class="text-2xl font-bold text-white">Steam Fox</span>
+            </div>
+            <div class="space-x-4 space-x-reverse hidden sm:flex">
+                <a href="#features" class="text-gray-400 hover:text-accent transition duration-200">الميزات</a>
+                <a href="#download" class="text-gray-400 hover:text-accent transition duration-200">تحميل</a>
+            </div>
+        </div>
+    </nav>
+
+    <header id="download" class="py-20 md:py-32 text-center">
+        <div class="container mx-auto px-4 md:px-6">
+            <span class="inline-block text-accent text-sm font-semibold mb-3 bg-gray-900 px-3 py-1 rounded-full border border-gray-700">الإصدار v1.5 متاح الآن</span>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 leading-snug">
+                أداة <span class="text-accent">Steam Fox</span><br class="hidden sm:inline"> لأتمتة إدارة التطبيقات
+            </h1>
+
+            <a href="downloads/steam-fox.rar" download class="inline-flex items-center justify-center bg-accent hover:bg-accent-dark text-gray-900 text-lg font-bold py-3 px-10 rounded-xl shadow-lg transition duration-300 transform hover:scale-105 group">
+                <svg class="w-6 h-6 ml-2 group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                حمّل Steam Fox الآن (لـ Windows) 50mb
+            </a>
+            
+            <p class="mt-4 text-sm text-gray-500">يتطلب .NET Framework (متوفر في معظم الأجهزة)</p>
+        </div>
+    </header>
+
+    <section id="features" class="py-16 md:py-24 bg-[#1a1a1a]">
+        <div class="container mx-auto px-4 md:px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">لماذا تختار <span class="text-accent">Steam Fox</span>؟</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-6 bg-[#2b2b2b] rounded-xl shadow-2xl border border-gray-700 hover:border-accent transition duration-300">
+                    <div class="text-3xl text-accent mb-4">🔍</div>
+                    <h3 class="text-xl font-bold mb-3">البحث التلقائي</h3>
+                    <p class="text-gray-400">فقط أدخل اسم اللعبة. سيقوم التطبيق بالبحث عن App ID الصحيح وجلب ملف المانفيست المناسب.</p>
+                </div>
+
+                <div class="p-6 bg-[#2b2b2b] rounded-xl shadow-2xl border border-gray-700 hover:border-accent transition duration-300">
+                    <div class="text-3xl text-accent mb-4">⚙️</div>
+                    <h3 class="text-xl font-bold mb-3">دعم المحتوى الإضافي (DLC)</h3>
+                    <p class="text-gray-400">يقوم Steam Fox بإنشاء ملف .lua يشمل جميع الـ DLCs المتاحة للعبة بشكل تلقائي.</p>
+                </div>
+
+                <div class="p-6 bg-[#2b2b2b] rounded-xl shadow-2xl border border-gray-700 hover:border-accent transition duration-300">
+                    <div class="text-3xl text-accent mb-4">⚡</div>
+                    <h3 class="text-xl font-bold mb-3">إعادة تشغيل Steam بنقرة</h3>
+                    <p class="text-gray-400">وفر الوقت. أعد تشغيل Steam مباشرة من داخل التطبيق بضغطة زر واحدة.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 md:py-16 text-center">
+        <div class="container mx-auto px-4 md:px-6">
+            <h2 class="text-3xl font-bold mb-4">جاهز لتحكم أسهل؟</h2>
+            <p class="text-lg text-gray-400 mb-8">ابدأ بتوفير الوقت والجهد في إدارة ملفات تعريف تطبيقات Steam الخاصة بك.</p>
+            <a href="#" class="inline-flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-8 rounded-xl transition duration-300 transform hover:scale-105 border border-gray-600">
+                شاهد فيديو توضيحي (قريباً)
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 py-8 border-t border-gray-800">
+        <div class="container mx-auto text-center px-4 md:px-6">
+            <p class="text-sm text-gray-500 mb-3">Steam Fox هو أداة غير رسمية لإدارة ملفات Steam.</p>
+            <div class="text-xs text-gray-600 space-x-4 space-x-reverse">
+                <a href="#" class="hover:text-accent">سياسة الخصوصية</a>
+                <span>|</span>
+                <p>صنع في 2024</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
